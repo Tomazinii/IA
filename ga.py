@@ -1,6 +1,6 @@
 from random import choices
 import math
-
+import numpy
 
 class Genetics_Algorithm_f6:
     def __init__(self,bits,limit,population_size,generation,*args,**kwargs):
@@ -62,6 +62,23 @@ class Genetics_Algorithm_f6:
         return population, population_bit
 
 
+    def selection(self,fitness,population_bit, population):
+        new_generation = []
+        elistimo = numpy.argmax(fitness)
+        new_generation.append(population_bit[elistimo])
+        probability = [f/sum(fitness) for f in fitness]
+        index = list(range(len(population_bit)))
+        random_number = numpy.random.choice(index,size=self.population_size - 1,replace=False, p=probability)
+
+        contador = 0
+
+        while contador < population - 1:
+            new_generation.append(population_bit[contador])
+            contador += 1
+
+        return new_generation
+
+
 
 
 
@@ -75,6 +92,8 @@ class Genetics_Algorithm_f6:
     
         
 
+    def crossover():
+        pass
 
 
 #datas
@@ -87,7 +106,10 @@ f = Genetics_Algorithm_f6(bits,population_size=population,limit=limit,generation
 real,bit = f.convert()
 
 
+
 lista = [ f.f6_function(element["x"], element["y"]) for element in real ]
+
+f.selection(lista, bit, population)
 
 
 print(lista)

@@ -109,12 +109,18 @@ def selection(pop_bin, fitness, pop_size):
     elite = np.argmax(fitness)
     next_generation.append(pop_bin[elite])  # Mantem o melhor
     P = [f/sum(fitness) for f in fitness]   # Seleção da prob
+
     index = list(range(int(len(pop_bin))))
-    index_selected = np.random.choice(index, size=pop_size-1, replace=False, p=P)
+
+    index_selected = np.random.choice(index, size=pop_size-1, replace=False,)
     s=0
+
+    print("POPBIN", pop_bin)
+
     for j in range(pop_size-1):
         next_generation.append(pop_bin[index_selected[s]])
         s+=1
+
     return next_generation
 
 # Cria a população de 44 bits para real
