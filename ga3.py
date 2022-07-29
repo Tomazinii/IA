@@ -13,13 +13,15 @@ class Genetics_Algorithm_f6:
     best_y = 0
     best_bit = ""
 
-    def __init__(self,bits,limit,population_size,generation,*args,**kwargs):
+    def __init__(self,bits,limit,population_size,generation,rate_mutation,rate_crossover,*args,**kwargs):
         # parameters
         self.bits = bits
         self.population_size = population_size
         self.value = ""
         self.limit = limit
         self.generation = generation
+        self.rate_crossover = rate_crossover
+        self.rate_mutation = rate_mutation
         
 
     
@@ -140,8 +142,10 @@ class Genetics_Algorithm_f6:
         new_sons = []
         for son in sons:
             random_number_rate = numpy.random.rand()
+            
             random_index = numpy.random.randint(0,44)
             if random_number_rate < rate:
+                print("ok")
                 list_transform = [z for z in son]
                 son_temp = ""
                 if list_transform[random_index] == "0":
@@ -156,10 +160,10 @@ class Genetics_Algorithm_f6:
             else:
                 new_sons.append(son)
 
-        number_random_son = numpy.random.randint(0,100)
         pai = numpy.argmax(fitness)
 
         elitism = population_bit[pai]
+        number_random_son = numpy.random.randint(0,100)
 
         new_sons[number_random_son] = elitism
 
@@ -201,13 +205,11 @@ class Genetics_Algorithm_f6:
 
         for ger in range(self.generation):
             selection = self.selection(bit, fitness, self.population_size)
-            crossover = self.crossover(0.95, selection)
-            mutation = self.mutation(crossover,0.95,bit,fitness)
+            crossover = self.crossover(self.rate_crossover, selection)
+            mutation = self.mutation(crossover,self.rate_mutation,bit,fitness)
             bit = mutation
             real = self.convert_real(bit)
             fitness = self.fitness(real)
-
-
 
             best_fitness = numpy.argmax(fitness)
             list_best_fitness.append(fitness[best_fitness])
@@ -236,7 +238,7 @@ generation = 100
 
 
 
-f = Genetics_Algorithm_f6(bits,population_size=population,limit=limit,generation=500)
+f = Genetics_Algorithm_f6(bits,population_size=population,limit=limit,generation=500,rate_crossover=0.85,rate_mutation=0.07)
 
 
 f.start_generation()
